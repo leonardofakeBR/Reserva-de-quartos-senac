@@ -17,7 +17,7 @@ public class DaoEstado extends BancoDeDadosMySql{
     
     public Boolean inserir(int id, int idPais, String nome, String uf){
         try{
-            sql = "INSERT INTO ESTADO (ID, ID_PAIS, NOME, UF) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO ESTADO (ID, IDPAIS, NOME, UF) VALUES (?, ?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -37,7 +37,7 @@ public class DaoEstado extends BancoDeDadosMySql{
     
     public Boolean alterar(int id, int idNovoPais, String novoNome, String novaUf){
         try{
-            sql = "UPDATE ESTADO SET ID_PAIS = ?, NOME = ?, UF = ? WHERE ID = ?";
+            sql = "UPDATE ESTADO SET IDPAIS = ?, NOME = ?, UF = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -83,7 +83,7 @@ public class DaoEstado extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   ESTADO EST              " +
                 " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " ;
+                "   PA.ID = EST.IDPAIS     " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -106,7 +106,7 @@ public class DaoEstado extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   ESTADO EST              " +
                 " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
+                "   PA.ID = EST.IDPAIS     " +
                 " WHERE                     " +
                 "   EST.ID = ?              " ;
             
@@ -133,7 +133,7 @@ public class DaoEstado extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   ESTADO EST              " +
                 " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
+                "   PA.ID = EST.IDPAIS     " +
                 " WHERE                     " +
                 "   EST.NOME LIKE ?         " ;
             
@@ -160,7 +160,7 @@ public class DaoEstado extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   ESTADO EST              " +
                 " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
+                "   PA.ID = EST.IDPAIS     " +
                 " WHERE                     " +
                 "   PA.NOME LIKE ?             " ;
             
@@ -187,7 +187,7 @@ public class DaoEstado extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   ESTADO EST              " +
                 " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
+                "   PA.ID = EST.IDPAIS     " +
                 " WHERE                     " +
                 "   EST.UF LIKE ?           " ;
             

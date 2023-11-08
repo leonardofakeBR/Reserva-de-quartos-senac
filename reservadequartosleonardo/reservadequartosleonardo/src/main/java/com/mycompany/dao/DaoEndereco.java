@@ -22,7 +22,7 @@ public class DaoEndereco extends BancoDeDadosMySql{
     
     public Boolean inserir(int id, int idCidade, String nomeRua, String cep, String numeroResidencia){
         try{
-            sql = "INSERT INTO ENDERECO (ID, ID_CIDADE, NOME_RUA, CEP, NUMERO_RESIDENCIA) VALUES (?, ?, ?, ?, ?)";
+            sql = "INSERT INTO ENDERECO (ID, IDCIDADE, NOMERUA, CEP, NUMERORESIDENCIA) VALUES (?, ?, ?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -43,7 +43,7 @@ public class DaoEndereco extends BancoDeDadosMySql{
     
     public Boolean alterar(int id, int idNovaCidade, String novoNomeRua, String novoCep, String novoNumeroResidencia){
         try{
-            sql = "UPDATE ENDERECO SET ID_CIDADE = ?, NOME_RUA = ?, CEP = ?, NUMERO_RESIDENCIA = ? WHERE ID = ?";
+            sql = "UPDATE ENDERECO SET IDCIDADE = ?, NOMERUA = ?, CEP = ?, NUMERORESIDENCIA = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -85,13 +85,13 @@ public class DaoEndereco extends BancoDeDadosMySql{
                 " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " ;
+                "   CID.ID = EN.IDCIDADE           " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -109,13 +109,13 @@ public class DaoEndereco extends BancoDeDadosMySql{
                 " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " ;
+                "   CID.ID = EN.IDCIDADE           " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -135,15 +135,15 @@ public class DaoEndereco extends BancoDeDadosMySql{
                 " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " +
+                "   CID.ID = EN.IDCIDADE           " +
                 " WHERE                             " +
-                "   EN.NOME_RUA LIKE ?              " ;
+                "   EN.NOMERUA LIKE ?              " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -163,13 +163,13 @@ public class DaoEndereco extends BancoDeDadosMySql{
                " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " +
+                "   CID.ID = EN.IDCIDADE           " +
                 " WHERE                             " +
                 "   EN.CEP LIKE ?                   " ;
             
@@ -191,15 +191,15 @@ public class DaoEndereco extends BancoDeDadosMySql{
                 " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " +
+                "   CID.ID = EN.IDCIDADE           " +
                 " WHERE                             " +
-                "   EN.NUMERO_RESIDENCIA LIKE ?     " ;
+                "   EN.NUMERORESIDENCIA LIKE ?     " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -219,13 +219,13 @@ public class DaoEndereco extends BancoDeDadosMySql{
                 " SELECT                            " +
                 "   EN.ID,                          " +
                 "   CID.NOME AS CIDADE,             " +
-                "   EN.NOME_RUA AS RUA,             " +
+                "   EN.NOMERUA AS RUA,             " +
                 "   EN.CEP AS CEP,                  " +
-                "   EN.NUMERO_RESIDENCIA AS NUM_RES " +
+                "   EN.NUMERORESIDENCIA AS NUMRES " +
                 " FROM                              " +
                 "   ENDERECO EN                     " +
                 " JOIN CIDADE CID ON                " +
-                "   CID.ID = EN.ID_CIDADE           " +
+                "   CID.ID = EN.IDCIDADE           " +
                 " WHERE                             " +
                 "   CID.NOME LIKE ?                 " ;
             

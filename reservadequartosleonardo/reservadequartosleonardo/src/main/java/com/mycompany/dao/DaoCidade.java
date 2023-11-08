@@ -16,7 +16,7 @@ public class DaoCidade extends BancoDeDadosMySql{
     
     public Boolean inserir(int id, int idEstado, String descricao){
         try{
-            sql = "INSERT INTO CIDADE (ID, ID_ESTADO, NOME) VALUES (?, ?, ?)";
+            sql = "INSERT INTO CIDADE (ID, IDESTADO, NOME) VALUES (?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -35,7 +35,7 @@ public class DaoCidade extends BancoDeDadosMySql{
     
     public Boolean alterar(int id, String novoEstado, String novoNome){
         try{
-            sql = "UPDATE CIDADE SET ID_ESTADO = ?, NOME = ? WHERE ID = ?";
+            sql = "UPDATE CIDADE SET IDESTADO = ?, NOME = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -80,7 +80,7 @@ public class DaoCidade extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   CIDADE CID              " +
                 " JOIN ESTADO EST ON        " +
-                "   EST.ID = CID.ID_ESTADO  " ;
+                "   EST.ID = CID.IDESTADO  " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -103,7 +103,7 @@ public class DaoCidade extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   CIDADE CID              " +
                 " JOIN ESTADO EST ON        " +
-                "   EST.ID = CID.ID_ESTADO  " +
+                "   EST.ID = CID.IDESTADO  " +
                 " WHERE                     " +
                 "   CID.ID = ?              ";
             
@@ -130,7 +130,7 @@ public class DaoCidade extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   CIDADE CID              " +
                 " JOIN ESTADO EST ON        " +
-                "   EST.ID = CID.ID_ESTADO  " +
+                "   EST.ID = CID.IDESTADO  " +
                 " WHERE                     " +
                 "   CID.NOME LIKE ?         ";
             
@@ -157,7 +157,7 @@ public class DaoCidade extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   CIDADE CID              " +
                 " JOIN ESTADO EST ON        " +
-                "   EST.ID = CID.ID_ESTADO  " +
+                "   EST.ID = CID.IDESTADO  " +
                 " WHERE                     " +
                 "   EST.NOME LIKE ?         ";;
             
@@ -184,7 +184,7 @@ public class DaoCidade extends BancoDeDadosMySql{
                 " FROM                      " +
                 "   CIDADE CID              " +
                 " JOIN ESTADO EST ON        " +
-                "   EST.ID = CID.ID_ESTADO  " +
+                "   EST.ID = CID.IDESTADO  " +
                 " WHERE                     " +
                 "   EST.UF = ?              ";;
             

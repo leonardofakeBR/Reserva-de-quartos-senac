@@ -11,17 +11,18 @@ import java.sql.ResultSet;
  *
  * @author leonardo.35903
  */
-public class DaoPais extends BancoDeDadosMySql{
+public class DaoRequisitos_cliente extends BancoDeDadosMySql{
     private String sql; 
     
-    public Boolean inserir(int id, String nome){
+    public Boolean inserir(int id, int idCliente, String descricao){
         try{
-            sql = "INSERT INTO PAIS (ID, NOME) VALUES (?, ?)";
+            sql = "INSERT INTO REQUISITOS_CLIENTE (ID, IDCLIENTE, DESCRICAO) VALUES (?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
-            getStatement().setString(2, nome);
+            getStatement().setInt(2, idCliente);
+            getStatement().setString(3, descricao);
             
             getStatement().executeUpdate();
             
@@ -32,14 +33,15 @@ public class DaoPais extends BancoDeDadosMySql{
         }
     }
     
-    public Boolean alterar(int id, String novoNome){
+    public Boolean alterar(int id, int novoIdCliente, String novoDescricao){
         try{
-            sql = "UPDATE PAIS SET NOME = ? WHERE ID = ?";
+            sql = "UPDATE REQUISITOS_CLIENTE SET DESCRICAO = ? idCliente = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setInt(2, id);
-            getStatement().setString(1, novoNome);
+            getStatement().setInt(3, id);
+            getStatement().setInt(2, novoIdCliente);
+            getStatement().setString(1, novoDescricao);
             
             getStatement().executeUpdate();
             
@@ -52,7 +54,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public Boolean excluir(int id){
         try{
-            sql = "DELETE FROM PAIS WHERE ID = ?";
+            sql = "DELETE FROM REQUISITOS_CLIENTE WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -69,7 +71,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarTodos(){
         try{
-            sql = "SELECT ID, NOME FROM PAIS";
+            sql = "SELECT ID, DESCRICAO FROM REQUISITOS_CLIENTE";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -83,7 +85,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarPorId(int id){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE ID = ?";
+            sql = "SELECT ID, DESCRICAO FROM REQUISITOS_CLIENTE WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -97,13 +99,13 @@ public class DaoPais extends BancoDeDadosMySql{
         return getResultado();
     }
     
-    public ResultSet listarPorNome(String nome){
+    public ResultSet listarPorDescricao(String descricao){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE NOME LIKE ?";
+            sql = "SELECT ID, DESCRICAO FROM REQUISITOS_CLIENTE WHERE DESCRICAO LIKE ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setString(1, nome + "%");
+            getStatement().setString(1, descricao + "%");
             
             setResultado(getStatement().executeQuery());
         }catch(Exception e){
@@ -117,7 +119,7 @@ public class DaoPais extends BancoDeDadosMySql{
         int id = -1;
         
         try{
-            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM PAIS";
+            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM REQUISITOS_CLIENTE";
             
             setStatement(getConexao().prepareStatement(sql));
             

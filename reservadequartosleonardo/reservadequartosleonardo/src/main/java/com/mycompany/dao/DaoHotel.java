@@ -11,17 +11,18 @@ import java.sql.ResultSet;
  *
  * @author leonardo.35903
  */
-public class DaoPais extends BancoDeDadosMySql{
-    private String sql; 
+public class DaoHotel extends BancoDeDadosMySql{
+    String sql;
     
-    public Boolean inserir(int id, String nome){
+    public Boolean inserir(int id, int idEndereco, String nome){
         try{
-            sql = "INSERT INTO PAIS (ID, NOME) VALUES (?, ?)";
+            sql = "INSERT INTO HOTEL (ID, IDENDERECO, NOME) VALUES (?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
-            getStatement().setString(2, nome);
+            getStatement().setInt(2, idEndereco);
+            getStatement().setString(3, nome);
             
             getStatement().executeUpdate();
             
@@ -32,14 +33,15 @@ public class DaoPais extends BancoDeDadosMySql{
         }
     }
     
-    public Boolean alterar(int id, String novoNome){
+    public Boolean alterar(int id, int idEndereco, String nome){
         try{
-            sql = "UPDATE PAIS SET NOME = ? WHERE ID = ?";
+            sql = "UPDATE HOTEL SET IDENDERECO = ?, NOME = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setInt(2, id);
-            getStatement().setString(1, novoNome);
+            getStatement().setInt(1, id);
+            getStatement().setInt(2, idEndereco);
+            getStatement().setString(3, nome);
             
             getStatement().executeUpdate();
             
@@ -52,7 +54,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public Boolean excluir(int id){
         try{
-            sql = "DELETE FROM PAIS WHERE ID = ?";
+            sql = "DELETE FROM HOTEL WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -69,7 +71,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarTodos(){
         try{
-            sql = "SELECT ID, NOME FROM PAIS";
+            sql = "SELECT ID, NOME, IFNULL(DESCRICAO, '') FROM HOTEL";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -83,7 +85,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarPorId(int id){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE ID = ?";
+            sql = "SELECT ID, NOME, IFNULL(DESCRICAO, '') FROM HOTEL WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -99,7 +101,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarPorNome(String nome){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE NOME LIKE ?";
+            sql = "SELECT ID, NOME, IFNULL(DESCRICAO, '') FROM HOTEL WHERE NOME LIKE ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -113,11 +115,27 @@ public class DaoPais extends BancoDeDadosMySql{
         return getResultado();
     }
     
+    public ResultSet listarPorDescricao(String descricao){
+        try{
+            sql = "SELECT ID, NOME, IFNULL(DESCRICAO, '') FROM HOTEL WHERE DESCRICAO LIKE ?";
+            
+            setStatement(getConexao().prepareStatement(sql));
+            
+            getStatement().setString(1, descricao + "%");
+            
+            setResultado(getStatement().executeQuery());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return getResultado();
+    }
+    
     public int buscarProximoId(){
         int id = -1;
         
         try{
-            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM PAIS";
+            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM HOTEL";
             
             setStatement(getConexao().prepareStatement(sql));
             

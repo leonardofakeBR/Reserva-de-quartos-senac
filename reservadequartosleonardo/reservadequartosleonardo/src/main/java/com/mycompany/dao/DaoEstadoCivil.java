@@ -5,18 +5,23 @@
 package com.mycompany.dao;
 
 import com.mycompany.ferramentas.BancoDeDadosMySql;
+import static com.mycompany.ferramentas.BancoDeDadosMySql.getConexao;
+import static com.mycompany.ferramentas.BancoDeDadosMySql.getResultado;
+import static com.mycompany.ferramentas.BancoDeDadosMySql.getStatement;
+import static com.mycompany.ferramentas.BancoDeDadosMySql.setResultado;
+import static com.mycompany.ferramentas.BancoDeDadosMySql.setStatement;
 import java.sql.ResultSet;
 
 /**
  *
  * @author leonardo.35903
  */
-public class DaoPais extends BancoDeDadosMySql{
+public class DaoEstadoCivil extends BancoDeDadosMySql{
     private String sql; 
     
     public Boolean inserir(int id, String nome){
         try{
-            sql = "INSERT INTO PAIS (ID, NOME) VALUES (?, ?)";
+            sql = "INSERT INTO ESTADO_CIVIL (ID, NOME) VALUES (?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -34,7 +39,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public Boolean alterar(int id, String novoNome){
         try{
-            sql = "UPDATE PAIS SET NOME = ? WHERE ID = ?";
+            sql = "UPDATE ESTADO_CIVIL SET NOME = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -52,7 +57,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public Boolean excluir(int id){
         try{
-            sql = "DELETE FROM PAIS WHERE ID = ?";
+            sql = "DELETE FROM ESTADO_CIVIL WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -69,7 +74,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarTodos(){
         try{
-            sql = "SELECT ID, NOME FROM PAIS";
+            sql = "SELECT ID, NOME FROM ESTADO_CIVIL";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -83,7 +88,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarPorId(int id){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE ID = ?";
+            sql = "SELECT ID, NOME FROM ESTADO_CIVIL WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -99,7 +104,7 @@ public class DaoPais extends BancoDeDadosMySql{
     
     public ResultSet listarPorNome(String nome){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE NOME LIKE ?";
+            sql = "SELECT ID, NOME FROM ESTADO_CIVIL WHERE NOME LIKE ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -114,10 +119,10 @@ public class DaoPais extends BancoDeDadosMySql{
     }
     
     public int buscarProximoId(){
-        int id = -1;
+        int id = 0;
         
         try{
-            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM PAIS";
+            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM ESTADO_CIVIL";
             
             setStatement(getConexao().prepareStatement(sql));
             

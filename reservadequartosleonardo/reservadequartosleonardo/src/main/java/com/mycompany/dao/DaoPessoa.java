@@ -14,15 +14,15 @@ import java.sql.ResultSet;
 public class DaoPessoa extends BancoDeDadosMySql{
     String sql;
     
-    public Boolean inserir(int id, int idEndereco, String estadoCivil, String nome, String sobrenome, String genero, String telefone, String email, String usuario, String senha){
+    public Boolean inserir(int id, int idEndereco, int idEstadoCivil, String nome, String sobrenome, String genero, String telefone, String email, String usuario, String senha){
         try{
-            sql = "INSERT INTO PESSOA (ID, ID_ENDERECO, ESTADO_CIVIL, NOME, SOBRENOME, GENERO, TELEFONE, EMAIL, USUARIO, SENHA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO PESSOA (ID, ID_ENDERECO, ID_ESTADO_CIVIL, NOME, SOBRENOME, GENERO, TELEFONE, EMAIL, USUARIO, SENHA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
             getStatement().setInt(2, idEndereco);
-            getStatement().setString(3, estadoCivil);
+            getStatement().setInt(3, idEstadoCivil);
             getStatement().setString(4, nome);
             getStatement().setString(5, sobrenome);
             getStatement().setString(6, genero);
@@ -40,15 +40,15 @@ public class DaoPessoa extends BancoDeDadosMySql{
         }
     }
     
-    public Boolean alterar(int id, int idEndereco, String estadoCivil, String nome, String sobrenome, String genero, String telefone, String email){
+    public Boolean alterar(int id, int idEndereco, int idEstadoCivil, String nome, String sobrenome, String genero, String telefone, String email){
         try{
-            sql = "UPDATE PESSOA SET ID_ENDERECO = ?, ESTADO_CIVIL = ?, NOME = ?, SOBRENOME = ?, GENERO = ?, TELEFONE = ?, EMAIL = ? WHERE ID = ?";
+            sql = "UPDATE PESSOA SET ID_ENDERECO = ?, ID_ESTADO_CIVIL = ?, NOME = ?, SOBRENOME = ?, GENERO = ?, TELEFONE = ?, EMAIL = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(8, id);
             getStatement().setInt(1, idEndereco);
-            getStatement().setString(2, estadoCivil);
+            getStatement().setInt(2, idEstadoCivil);
             getStatement().setString(3, nome);
             getStatement().setString(4, sobrenome);
             getStatement().setString(5, genero);
@@ -103,7 +103,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " ;
+                "   EC.ID = P.ID_ESTADO_CIVIL       " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -139,7 +139,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.ID = ?                    " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -176,7 +176,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE E.NOME_RUA LIKE ?           " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -213,7 +213,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE E.CEP LIKE ?                " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -250,7 +250,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE E.NUMERO_RESIDENCIA LIKE ?  " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -287,7 +287,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.NOME LIKE ?               " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -324,7 +324,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.SOBRENOME LIKE ?          " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -361,7 +361,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.GENERO LIKE ?             " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -398,7 +398,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.TELEFONE LIKE ?           " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -435,7 +435,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.EMAIL LIKE ?              " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -472,7 +472,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE EC.NOME LIKE ?              " ;
             
             setStatement(getConexao().prepareStatement(sql));
@@ -509,7 +509,7 @@ public class DaoPessoa extends BancoDeDadosMySql{
                 " JOIN CIDADE C ON                  " +
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
-                "   EC.ID = P.ESTADO_CIVIL       " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
                 " WHERE P.USUARIO LIKE ?            " ;
             
             setStatement(getConexao().prepareStatement(sql));

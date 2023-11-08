@@ -14,14 +14,14 @@ import java.sql.ResultSet;
 public class DaoCliente extends BancoDeDadosMySql{
     private String sql; 
     
-    public Boolean inserir(int id, int id_pessoa){
+    public Boolean inserir(int id, int idpessoa){
         try{
-            sql = "INSERT INTO CLIENTE (ID, ID_PESSOA) VALUES (?, ?)";
+            sql = "INSERT INTO CLIENTE (ID, IDPESSOA) VALUES (?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
-            getStatement().setInt(2, id_pessoa);
+            getStatement().setInt(2, idpessoa);
             
             getStatement().executeUpdate();
             
@@ -32,14 +32,14 @@ public class DaoCliente extends BancoDeDadosMySql{
         }
     }
     
-    public Boolean alterar(int id, int novoId_pessoa){
+    public Boolean alterar(int id, int novoIdpessoa){
         try{
-            sql = "UPDATE CLIENTE SET ID_PESSOA = ? WHERE ID = ?";
+            sql = "UPDATE CLIENTE SET IDPESSOA = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(2, id);
-            getStatement().setInt(1, novoId_pessoa);
+            getStatement().setInt(1, novoIdpessoa);
             
             getStatement().executeUpdate();
             
@@ -69,7 +69,7 @@ public class DaoCliente extends BancoDeDadosMySql{
     
     public ResultSet listarTodos(){
         try{
-            sql = "SELECT ID, ID_PESSOA FROM CLIENTE";
+            sql = "SELECT ID, IDPESSOA FROM CLIENTE";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -83,7 +83,7 @@ public class DaoCliente extends BancoDeDadosMySql{
     
     public ResultSet listarPorId(int id){
         try{
-            sql = "SELECT ID, ID_PESSOA FROM CLIENTE WHERE ID = ?";
+            sql = "SELECT ID, IDPESSOA FROM CLIENTE WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -97,13 +97,13 @@ public class DaoCliente extends BancoDeDadosMySql{
         return getResultado();
     }
     
-    public ResultSet listarPorPessoa(int id_pessoa){
+    public ResultSet listarPorPessoa(int idpessoa){
         try{
-            sql = "SELECT ID, ID_PESSOA FROM CLIENTE WHERE ID_PESSOA = ?";
+            sql = "SELECT ID, IDPESSOA FROM CLIENTE WHERE IDPESSOA = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setInt(1, id_pessoa);
+            getStatement().setInt(1, idpessoa);
             
             setResultado(getStatement().executeQuery());
         }catch(Exception e){
@@ -118,10 +118,10 @@ public class DaoCliente extends BancoDeDadosMySql{
             sql = 
                 " SELECT                            " +
                 "   ID AS ID,                       " +
-                "   ID_PESSOA AS CIDADE             " +
+                "   IDPESSOA AS CIDADE             " +
                 " FROM                              " +
                 "   CLIENTE                         " +
-                " WHERE ID_PESSOA = ?               " ;
+                " WHERE IDPESSOA = ?               " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
