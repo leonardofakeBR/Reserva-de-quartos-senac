@@ -8,7 +8,6 @@ import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.dao.DaoCidade;
 import com.mycompany.dao.DaoEstado;
-import com.mycompany.dao.DaoPais;
 import com.mycompany.ferramentas.Formularios;
 import com.mycompany.modelo.ModCidade;
 import java.sql.ResultSet;

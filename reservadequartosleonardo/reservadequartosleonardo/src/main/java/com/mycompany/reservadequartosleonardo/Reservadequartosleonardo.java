@@ -4,6 +4,9 @@
 
 package com.mycompany.reservadequartosleonardo;
 
+import com.mycompany.ferramentas.Formularios;
+import com.mycompany.visao.outros.empresarial.MenuPrincipal;
+
 /**
  *
  * @author leonardo.35903
@@ -11,6 +14,9 @@ package com.mycompany.reservadequartosleonardo;
 public class Reservadequartosleonardo {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        if (Formularios.menuPrincipal == null)
+            Formularios.menuPrincipal = new MenuPrincipal();
+        
+        Formularios.menuPrincipal.setVisible(true);
     }
 }

@@ -48,11 +48,11 @@ public class ModHotel {
         this.nome = nome;
     }
 
-    public String getEmail() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setEmail(String descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 

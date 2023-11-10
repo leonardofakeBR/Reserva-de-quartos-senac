@@ -6,13 +6,11 @@ package com.mycompany.visao.endereco;
 
 import com.mycompany.dao.DaoCidade;
 import com.mycompany.dao.DaoEndereco;
-import com.mycompany.dao.DaoEstado;
 import com.mycompany.dao.DaoPais;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
 import com.mycompany.modelo.ModEndereco;
-import com.mycompany.modelo.ModEstado;
 import com.mycompany.visao.cidade.ListCidade;
 import com.mycompany.visao.estado.ListEstado;
 import java.sql.ResultSet;

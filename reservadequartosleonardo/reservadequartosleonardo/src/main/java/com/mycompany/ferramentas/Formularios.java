@@ -73,5 +73,9 @@ public class Formularios {
     //Atendimento_quarto
     public static JFrame cadAtendimento_quarto;
     public static JFrame listAtendimento_quarto;
+    
+    //EstadoCivil
+    public static JFrame cadEstadoCivil;
+    public static JFrame listEstadoCivil;
 }
 

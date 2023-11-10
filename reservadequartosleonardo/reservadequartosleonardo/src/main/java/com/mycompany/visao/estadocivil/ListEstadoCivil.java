@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.visao.cliente;
+package com.mycompany.visao.estadocivil;
 
-import com.mycompany.dao.DaoCliente;
-import com.mycompany.dao.DaoPessoa;
+import com.mycompany.dao.DaoEstadoCivil;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
-import com.mycompany.modelo.ModCliente;
+import com.mycompany.modelo.ModEstadoCivil;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,12 +15,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author leonardo.35903
  */
-public class ListCliente extends javax.swing.JFrame {
+public class ListEstadoCivil extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListCliente
+     * Creates new form ListEstadoCivil
      */
-    public ListCliente() {
+    public ListEstadoCivil() {
         initComponents();
         
         setLocationRelativeTo(null);
@@ -32,22 +31,21 @@ public class ListCliente extends javax.swing.JFrame {
     public void listarTodos(){
         try{
             //Pega o model da tabela definido no design
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableCliente.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstadoCivil.getModel();
             
-            tableCliente.setModel(defaultTableModel);
+            tableEstadoCivil.setModel(defaultTableModel);
 
-            DaoCliente daoCliente = new DaoCliente();
+            DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoCliente.listarTodos();
+            ResultSet resultSet = daoEstadoCivil.listarTodos();
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String estado = resultSet.getString(2);
-                String cliente = resultSet.getString(3);
+                String nome = resultSet.getString(2);
                 
-                defaultTableModel.addRow(new Object[]{id, estado, cliente});
+                defaultTableModel.addRow(new Object[]{id, nome});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -57,47 +55,45 @@ public class ListCliente extends javax.swing.JFrame {
     public void listarPorId(int pId){
         try{
             //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableCliente.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstadoCivil.getModel();
 
-            tableCliente.setModel(defaultTableModel);
+            tableEstadoCivil.setModel(defaultTableModel);
 
-            DaoCliente daoCliente = new DaoCliente();
+            DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoCliente.listarPorId(pId);
+            ResultSet resultSet = daoEstadoCivil.listarPorId(pId);
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String estado = resultSet.getString(2);
-                String cliente = resultSet.getString(3);
+                String nome = resultSet.getString(2);
                 
-                defaultTableModel.addRow(new Object[]{id, estado, cliente});
+                defaultTableModel.addRow(new Object[]{id, nome});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorPessoa(int pPessoa){
+    public void listarPorNome(String pNome){
         try{
             //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableCliente.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstadoCivil.getModel();
             
-            tableCliente.setModel(defaultTableModel);
+            tableEstadoCivil.setModel(defaultTableModel);
 
-            DaoCliente DaoCliente = new DaoCliente();
+            DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = DaoCliente.listarPorPessoa(pPessoa);
+            ResultSet resultSet = daoEstadoCivil.listarPorNome(pNome);
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String estado = resultSet.getString(2);
-                String cliente = resultSet.getString(3);
+                String nome = resultSet.getString(2);
                 
-                defaultTableModel.addRow(new Object[]{id, estado, cliente});
+                defaultTableModel.addRow(new Object[]{id, nome});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -117,44 +113,49 @@ public class ListCliente extends javax.swing.JFrame {
         jcbTipoFiltro = new javax.swing.JComboBox<>();
         tfFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableCliente = new javax.swing.JTable();
+        tableEstadoCivil = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Consulta de cidade");
+        setTitle("Consulta de pais");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
         });
 
-        jcbTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ID", "ESTADO", "CIDADE" }));
+        jcbTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ID", "NOME" }));
+        jcbTipoFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTipoFiltroActionPerformed(evt);
+            }
+        });
 
-        tableCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tableEstadoCivil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "ID", "ESTADO", "CIDADE"
+                "ID", "NOME"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tableCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableEstadoCivil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableClienteMouseClicked(evt);
+                tableEstadoCivilMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tableCliente);
+        jScrollPane1.setViewportView(tableEstadoCivil);
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -170,11 +171,11 @@ public class ListCliente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
+                        .addComponent(tfFiltro))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnBuscar)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -188,7 +189,7 @@ public class ListCliente extends javax.swing.JFrame {
                     .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar)
                 .addContainerGap())
@@ -214,6 +215,24 @@ public class ListCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Formularios.listEstadoCivil = null;
+    }//GEN-LAST:event_formWindowClosed
+
+    private void tableEstadoCivilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEstadoCivilMouseClicked
+        if (evt.getClickCount() == 2){
+            ModEstadoCivil modEstadoCivil = new ModEstadoCivil();
+
+            modEstadoCivil.setId(Integer.parseInt(String.valueOf(tableEstadoCivil.getValueAt(tableEstadoCivil.getSelectedRow(), 0))));
+            modEstadoCivil.setNome(String.valueOf(tableEstadoCivil.getValueAt(tableEstadoCivil.getSelectedRow(), 1)));
+
+            DadosTemporarios.tempObject = (ModEstadoCivil) modEstadoCivil;
+
+            CadEstadoCivil cadEstadoCivil = new CadEstadoCivil();
+            cadEstadoCivil.setVisible(true);
+        }
+    }//GEN-LAST:event_tableEstadoCivilMouseClicked
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         switch (jcbTipoFiltro.getSelectedIndex()){
             case 0:
@@ -223,41 +242,14 @@ public class ListCliente extends javax.swing.JFrame {
                 listarPorId(Integer.parseInt(tfFiltro.getText()));
                 break;
             case 2:
-                listarPorPessoa(Integer.parseInt(tfFiltro.getText()));
+                listarPorNome(tfFiltro.getText());
                 break;
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClienteMouseClicked
-        try{
-            if (evt.getClickCount() == 2){
-                ModCliente modCliente = new ModCliente();
-
-                modCliente.setId(Integer.parseInt(String.valueOf(tableCliente.getValueAt(tableCliente.getSelectedRow(), 0))));
-                modCliente.setId_pessoa(Integer.parseInt(String.valueOf(tableCliente.getValueAt(tableCliente.getSelectedRow(), 2))));
-
-                DaoPessoa daoPessoa = new DaoPessoa();
-                ResultSet resultSet = daoPessoa.listarPorNome(String.valueOf(tableCliente.getValueAt(tableCliente.getSelectedRow(), 1)));
-
-                int idPessoa = -1;
-                while(resultSet.next())
-                    idPessoa = resultSet.getInt("ID");
-
-                modCliente.setId_pessoa(idPessoa);
-                
-                DadosTemporarios.tempObject = (ModCliente) modCliente;
-
-                CadCliente cadCliente = new CadCliente();
-                cadCliente.setVisible(true);
-            }
-        }catch(Exception e){
-            System.err.println(e.getMessage());
-        }
-    }//GEN-LAST:event_tableClienteMouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        Formularios.listCliente = null;
-    }//GEN-LAST:event_formWindowClosed
+    private void jcbTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTipoFiltroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,13 +268,13 @@ public class ListCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -290,7 +282,7 @@ public class ListCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListCliente().setVisible(true);
+                new ListEstadoCivil().setVisible(true);
             }
         });
     }
@@ -300,7 +292,7 @@ public class ListCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcbTipoFiltro;
-    private javax.swing.JTable tableCliente;
+    private javax.swing.JTable tableEstadoCivil;
     private javax.swing.JTextField tfFiltro;
     // End of variables declaration//GEN-END:variables
 }

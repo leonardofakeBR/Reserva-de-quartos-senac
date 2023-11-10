@@ -2,36 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.visao.cliente;
+package com.mycompany.visao.estadocivil;
 
+import com.mycompany.visao.estadocivil.*;
+import com.mycompany.dao.DaoEstadoCivil;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
-import com.mycompany.dao.DaoCliente;
-import com.mycompany.dao.DaoPessoa;
 import com.mycompany.ferramentas.Formularios;
-import com.mycompany.modelo.ModCliente;
-import java.sql.ResultSet;
+import com.mycompany.modelo.ModEstadoCivil;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author leonardo.35903
  */
-public class CadCliente extends javax.swing.JFrame {
+public class CadEstadoCivil extends javax.swing.JFrame {
 
     /**
-     * Creates new form CadCliente
+     * Creates new form CadEstadoCivil
      */
-    public CadCliente() {
+    public CadEstadoCivil() {
         initComponents();
         
-        carregarPessoas();
-        
         if(!existeDadosTemporarios()){
-            DaoCliente daoCliente = new DaoCliente();
+            DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
 
-            int id = daoCliente.buscarProximoId(); 
-            if (id > 0)
+            int id = daoEstadoCivil.buscarProximoId(); 
+            if (id >= 0)
                 tfId.setText(String.valueOf(id));
             
             btnAcao.setText(Constantes.BTN_SALVAR_TEXT);
@@ -41,37 +38,18 @@ public class CadCliente extends javax.swing.JFrame {
             btnExcluir.setVisible(true);
         }
         
-        recuperaIdPessoa();
-        
         setLocationRelativeTo(null);
         
         tfId.setEnabled(false);
-        
-        tfIdPessoa.setVisible(false);
     }
 
     private Boolean existeDadosTemporarios(){        
-        if(DadosTemporarios.tempObject instanceof ModCliente){
-            int id = ((ModCliente) DadosTemporarios.tempObject).getId();
-            int id_pessoa = ((ModCliente) DadosTemporarios.tempObject).getId_pessoa();
+        if(DadosTemporarios.tempObject instanceof ModEstadoCivil){
+            int id = ((ModEstadoCivil) DadosTemporarios.tempObject).getId();
+            String nome = ((ModEstadoCivil) DadosTemporarios.tempObject).getNome();
             
             tfId.setText(String.valueOf(id));
-            tfIdPessoa.setText(String.valueOf(id_pessoa));
-            
-            try{
-                DaoPessoa daoPessoa = new DaoPessoa();
-                ResultSet resultSet = daoPessoa.listarPorId(id_pessoa);
-                resultSet.next();
-                String pais = resultSet.getString("ESTADO");
-                int index = 0;
-                for(int i = 0; i < jcbPessoa.getItemCount(); i++){
-                    if(jcbPessoa.getItemAt(i).equals(pais)){
-                        index = i;
-                        break;
-                    }
-                }
-                jcbPessoa.setSelectedIndex(index);
-            }catch(Exception e){}
+            tfNome.setText(nome);
             
             DadosTemporarios.tempObject = null;
             
@@ -81,76 +59,52 @@ public class CadCliente extends javax.swing.JFrame {
     }
     
     private void inserir(){
-        DaoCliente daoCliente = new DaoCliente();
+        DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
         
-        if (daoCliente.inserir(Integer.parseInt(tfId.getText()), Integer.parseInt(tfIdPessoa.getText()))){
-            JOptionPane.showMessageDialog(null, "Cliente salva com sucesso!");
+        if (daoEstadoCivil.inserir(Integer.parseInt(tfId.getText()), tfNome.getText())){
+            JOptionPane.showMessageDialog(null, "EstadoCivil salvo com sucesso!");
             
-            tfId.setText(String.valueOf(daoCliente.buscarProximoId())); 
+            tfId.setText(String.valueOf(daoEstadoCivil.buscarProximoId()));
+            tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível salvar o cliente!");
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar o estado Civil!");
         }
     }
     
     private void alterar(){
-        DaoCliente daoCliente = new DaoCliente();
+        DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
         
-        if (daoCliente.alterar(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdPessoa.getText()))){
-            JOptionPane.showMessageDialog(null, "Cliente alterada com sucesso!");
+        if (daoEstadoCivil.alterar(Integer.parseInt(tfId.getText()), tfNome.getText())){
+            JOptionPane.showMessageDialog(null, "EstadoCivil alterado com sucesso!");
             
             tfId.setText("");
-            tfIdPessoa.setText("");
+            tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar o cliente!");
+            JOptionPane.showMessageDialog(null, "Não foi possível alterar o estado Civil!");
         }
         
-        ((ListCliente) Formularios.listCliente).listarTodos();
+        ((ListEstadoCivil) Formularios.listEstadoCivil).listarTodos();
         
         dispose();
     }
     
     private void excluir(){
-        DaoCliente daoCliente = new DaoCliente();
+        DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
         
-        if (daoCliente.excluir(Integer.parseInt(tfId.getText()))){
-            JOptionPane.showMessageDialog(null, "Cliente " + tfId.getText() + " excluído com sucesso!");
+        if (daoEstadoCivil.excluir(Integer.parseInt(tfId.getText()))){
+            JOptionPane.showMessageDialog(null, "Categoria " + tfNome.getText() + " excluída com sucesso!");
             
             tfId.setText("");
-            tfIdPessoa.setText("");
+            tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o cliente!");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir a categoria!");
         }
         
-        ((ListCliente) Formularios.listCliente).listarTodos();
+        ((ListEstadoCivil) Formularios.listEstadoCivil).listarTodos();
         
         dispose();
     }
     
-    private void carregarPessoas(){
-        try{
-            DaoPessoa daoPessoa = new DaoPessoa();
-
-            ResultSet resultSet = daoPessoa.listarTodos();
-
-            while(resultSet.next()){
-                jcbPessoa.addItem(resultSet.getString("ESTADO"));
-            }
-        }catch(Exception e){
-            
-        }
-    }
-    
-    private void recuperaIdPessoa(){
-        try{
-            DaoPessoa daoPessoa = new DaoPessoa();
-            ResultSet resultSet = daoPessoa.listarPorNome(jcbPessoa.getSelectedItem().toString());
-            
-            resultSet.next();
-            tfIdPessoa.setText(resultSet.getString("ID"));
-        }catch(Exception e){
-            System.out.println(e.getMessage());            
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,14 +117,13 @@ public class CadCliente extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfId = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jcbPessoa = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        tfNome = new javax.swing.JTextField();
         btnAcao = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        tfIdPessoa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de cidade");
+        setTitle("Cadastro de pais");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -179,18 +132,13 @@ public class CadCliente extends javax.swing.JFrame {
 
         jLabel1.setText("ID");
 
-        jLabel3.setText("Pessoa");
-
-        jcbPessoa.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jcbPessoaItemStateChanged(evt);
-            }
-        });
-        jcbPessoa.addActionListener(new java.awt.event.ActionListener() {
+        tfId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbPessoaActionPerformed(evt);
+                tfIdActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Nome");
 
         btnAcao.setText("Salvar");
         btnAcao.addActionListener(new java.awt.event.ActionListener() {
@@ -206,12 +154,6 @@ public class CadCliente extends javax.swing.JFrame {
             }
         });
 
-        tfIdPessoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfIdPessoaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -219,18 +161,18 @@ public class CadCliente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
+                    .addComponent(tfNome, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAcao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExcluir))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jcbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfIdPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAcao)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExcluir)))
+                        .addGap(0, 185, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,12 +182,10 @@ public class CadCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfIdPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAcao)
                     .addComponent(btnExcluir))
@@ -272,38 +212,39 @@ public class CadCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfIdPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIdPessoaActionPerformed
+    private void tfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfIdPessoaActionPerformed
+    }//GEN-LAST:event_tfIdActionPerformed
 
     private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
-        if (btnAcao.getText() == Constantes.BTN_SALVAR_TEXT)
+        DaoEstadoCivil daoEstadoCivil = new DaoEstadoCivil();
+        
+        if (btnAcao.getText() == Constantes.BTN_SALVAR_TEXT){
             inserir();
-        else if (btnAcao.getText() == Constantes.BTN_ALTERAR_TEXT)
+            
+            tfId.setText(String.valueOf(daoEstadoCivil.buscarProximoId()));
+            tfNome.setText("");
+        }
+        else if (btnAcao.getText() == Constantes.BTN_ALTERAR_TEXT){
             alterar();
+            ((ListEstadoCivil) Formularios.listEstadoCivil).listarTodos();
+            dispose();
+        }
     }//GEN-LAST:event_btnAcaoActionPerformed
-
-    private void jcbPessoaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbPessoaItemStateChanged
-        recuperaIdPessoa();
-    }//GEN-LAST:event_jcbPessoaItemStateChanged
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        Formularios.cadCliente = null;
-    }//GEN-LAST:event_formWindowClosed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         int escolha = 
                 JOptionPane.showConfirmDialog(
                         null, 
-                        "Deseja realmente excluir o cliente " + tfId.getText() + "?");
+                        "Deseja realmente excluir o estado civil " + tfNome.getText() + "?");
         
         if(escolha == JOptionPane.YES_OPTION)
             excluir();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void jcbPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbPessoaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbPessoaActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Formularios.cadEstadoCivil = null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -322,13 +263,13 @@ public class CadCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadEstadoCivil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -336,7 +277,7 @@ public class CadCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadCliente().setVisible(true);
+                new CadEstadoCivil().setVisible(true);
             }
         });
     }
@@ -345,10 +286,9 @@ public class CadCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnAcao;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox<String> jcbPessoa;
     private javax.swing.JTextField tfId;
-    private javax.swing.JTextField tfIdPessoa;
+    private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
 }

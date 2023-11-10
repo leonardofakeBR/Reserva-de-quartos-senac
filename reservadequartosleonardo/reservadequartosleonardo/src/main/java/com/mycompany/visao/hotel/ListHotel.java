@@ -2,43 +2,49 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.visao.endereco;
+package com.mycompany.visao.hotel;
 
+import com.mycompany.visao.hotel.*;
 import com.mycompany.dao.DaoCidade;
 import com.mycompany.dao.DaoEndereco;
+import com.mycompany.dao.DaoEstadoCivil;
+import com.mycompany.dao.DaoHotel;
 import com.mycompany.ferramentas.DadosTemporarios;
+import com.mycompany.ferramentas.Formularios;
 import com.mycompany.modelo.ModEndereco;
+import com.mycompany.modelo.ModHotel;
+import com.mycompany.visao.endereco.CadEndereco;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author leonardo.35903
+ * @author 10156
  */
-public class ListEndereco extends javax.swing.JFrame {
+public class ListHotel extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListEndereco
+     * Creates new form CadHotel
      */
-    public ListEndereco() {
+    public ListHotel() {
         initComponents();
         
         setLocationRelativeTo(null);
         
-        listarTodos();
+        listarTodos();;
     }
 
     public void listarTodos(){
         try{
             //Pega o model da tabela definido no design
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableHotel.getModel();
             
-            tableEndereco.setModel(defaultTableModel);
+            tableHotel.setModel(defaultTableModel);
 
-            DaoEndereco daoEndereco = new DaoEndereco();
+            DaoHotel daoHotel = new DaoHotel();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarTodos();
+            ResultSet resultSet = daoHotel.listarTodos();
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
@@ -46,26 +52,28 @@ public class ListEndereco extends javax.swing.JFrame {
                 String cidade = resultSet.getString(2);
                 String rua = resultSet.getString(3);
                 String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
+                String numRes = resultSet.getString(5);
+                String nome = resultSet.getString(6);
+                String descricao = resultSet.getString(7);
                 
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
+                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numRes, nome, descricao});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorId(int pId){
+    public void listarPorId(){
         try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
+            //Pega o model da tabela definido no design
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableHotel.getModel();
+            
+            tableHotel.setModel(defaultTableModel);
 
-            tableEndereco.setModel(defaultTableModel);
-
-            DaoEndereco daoEndereco = new DaoEndereco();
+            DaoHotel daoHotel = new DaoHotel();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarPorId(pId);
+            ResultSet resultSet = daoHotel.listarPorId(Integer.parseInt(tfFiltro.getText()));
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
@@ -73,26 +81,28 @@ public class ListEndereco extends javax.swing.JFrame {
                 String cidade = resultSet.getString(2);
                 String rua = resultSet.getString(3);
                 String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
+                String numRes = resultSet.getString(5);
+                String nome = resultSet.getString(6);
+                String descricao = resultSet.getString(7);
                 
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
+                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numRes, nome, descricao});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorCidade(String pCidade){
+    public void listarPorDescricao(){
         try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
+            //Pega o model da tabela definido no design
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableHotel.getModel();
             
-            tableEndereco.setModel(defaultTableModel);
+            tableHotel.setModel(defaultTableModel);
 
-            DaoEndereco daoEndereco = new DaoEndereco();
+            DaoHotel daoHotel = new DaoHotel();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarPorCidade(pCidade);
+            ResultSet resultSet = daoHotel.listarPorCep(tfFiltro.getText());
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
@@ -100,26 +110,28 @@ public class ListEndereco extends javax.swing.JFrame {
                 String cidade = resultSet.getString(2);
                 String rua = resultSet.getString(3);
                 String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
+                String numRes = resultSet.getString(5);
+                String nome = resultSet.getString(6);
+                String descricao = resultSet.getString(7);
                 
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
+                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numRes, nome, descricao});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorNomeRua(String pNomeRua){
+    public void listarPorNumeroResidencia(){
         try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
+            //Pega o model da tabela definido no design
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableHotel.getModel();
             
-            tableEndereco.setModel(defaultTableModel);
+            tableHotel.setModel(defaultTableModel);
 
-            DaoEndereco daoEndereco = new DaoEndereco();
+            DaoHotel daoHotel = new DaoHotel();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarPorNomeRua(pNomeRua);
+            ResultSet resultSet = daoHotel.listarPorNumeroResidencia(tfFiltro.getText());
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
@@ -127,26 +139,28 @@ public class ListEndereco extends javax.swing.JFrame {
                 String cidade = resultSet.getString(2);
                 String rua = resultSet.getString(3);
                 String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
+                String numRes = resultSet.getString(5);
+                String nome = resultSet.getString(6);
+                String descricao = resultSet.getString(7);
                 
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
+                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numRes, nome, descricao});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorCep(String pCep){
+    public void listarPorNome(){
         try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
+            //Pega o model da tabela definido no design
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableHotel.getModel();
             
-            tableEndereco.setModel(defaultTableModel);
+            tableHotel.setModel(defaultTableModel);
 
-            DaoEndereco daoEndereco = new DaoEndereco();
+            DaoHotel daoHotel = new DaoHotel();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarPorCep(pCep);
+            ResultSet resultSet = daoHotel.listarPorNome(tfFiltro.getText());
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
@@ -154,36 +168,11 @@ public class ListEndereco extends javax.swing.JFrame {
                 String cidade = resultSet.getString(2);
                 String rua = resultSet.getString(3);
                 String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
+                String numRes = resultSet.getString(5);
+                String nome = resultSet.getString(6);
+                String descricao = resultSet.getString(7);
                 
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    public void listarPorNumeroResidencia(String pNumeroResidencia){
-        try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEndereco.getModel();
-            
-            tableEndereco.setModel(defaultTableModel);
-
-            DaoEndereco daoEndereco = new DaoEndereco();
-
-            //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEndereco.listarPorNumeroResidencia(pNumeroResidencia);
-            
-            defaultTableModel.setRowCount(0);
-            while (resultSet.next()){
-                String id = resultSet.getString(1);
-                String cidade = resultSet.getString(2);
-                String rua = resultSet.getString(3);
-                String cep = resultSet.getString(4);
-                String numeroRes = resultSet.getString(5);
-                
-                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numeroRes});
+                defaultTableModel.addRow(new Object[]{id, cidade, rua, cep, numRes, nome, descricao});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -203,38 +192,43 @@ public class ListEndereco extends javax.swing.JFrame {
         jcbTipoFiltro = new javax.swing.JComboBox<>();
         tfFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableEndereco = new javax.swing.JTable();
+        tableHotel = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tableEndereco.setModel(new javax.swing.table.DefaultTableModel(
+        tableHotel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "CIDADE", "RUA", "CEP", "NUMERO RES."
+                "ID", "ENDERECO", "NOME", "DESCRIÇÃO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tableEndereco.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableHotel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableEnderecoMouseClicked(evt);
+                tableHotelMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tableEndereco);
+        jScrollPane1.setViewportView(tableHotel);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -243,7 +237,7 @@ public class ListEndereco extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -286,57 +280,75 @@ public class ListEndereco extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        switch (jcbTipoFiltro.getSelectedIndex()){
-            case 0:
-                listarTodos();
-                break;
-            case 1:
-                listarPorId(Integer.parseInt(tfFiltro.getText()));
-                break;
-            case 2:
-                listarPorCidade(tfFiltro.getText());
-                break;
-            case 3:
-                listarPorNomeRua(tfFiltro.getText());
-                break;
-            case 4:
-                listarPorCep(tfFiltro.getText());
-                break;
-            case 5:
-                listarPorNumeroResidencia(tfFiltro.getText());
-                break;
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tableEnderecoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEnderecoMouseClicked
+    private void tableHotelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableHotelMouseClicked
         try{
             if (evt.getClickCount() == 2){
-                ModEndereco modEndereco = new ModEndereco();
+                //Guarda os dados da hotel
+                ModHotel modHotel = new ModHotel();
 
-                modEndereco.setId(Integer.parseInt(String.valueOf(tableEndereco.getValueAt(tableEndereco.getSelectedRow(), 0))));
-                modEndereco.setNomeRua(String.valueOf(tableEndereco.getValueAt(tableEndereco.getSelectedRow(), 2)));
-                modEndereco.setCep(String.valueOf(tableEndereco.getValueAt(tableEndereco.getSelectedRow(), 3)));
-                modEndereco.setNumeroResidencia(String.valueOf(tableEndereco.getValueAt(tableEndereco.getSelectedRow(), 4)));
+                modHotel.setId(Integer.parseInt(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 0))));
+//                modHotel.setIdEndereco(Integer.parseInt(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 1))));
+//                modHotel.setIdEstadoCivil(Integer.parseInt(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 2))));
+                modHotel.setNome(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 5)));
+                modHotel.setDescricao(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 6)));
+
                 
-                DaoCidade daoCidade = new DaoCidade();
-                ResultSet resultSet = daoCidade.listarPorNome(String.valueOf(tableEndereco.getValueAt(tableEndereco.getSelectedRow(), 1)));
+                DaoEndereco daoEndereco = new DaoEndereco();
+                ResultSet resultSet = daoEndereco.listarPorId(Integer.parseInt(tableHotel.getValueAt(tableHotel.getSelectedRow(), 0).toString()));
 
-                int idEstado = -1;
+                int idEndereco = -1;
                 while(resultSet.next())
-                    idEstado = resultSet.getInt("ID");
+                    idEndereco = resultSet.getInt("ID");
 
-                modEndereco.setIdCidade(idEstado);
+                modHotel.setIdEndereco(idEndereco);
                 
-                DadosTemporarios.tempObject = (ModEndereco) modEndereco;
-
-                CadEndereco cadEndereco = new CadEndereco();
-                cadEndereco.setVisible(true);
+                //Guarda os dados do endereço
+                ModEndereco modEndereco = new ModEndereco();
+                
+                modEndereco.setNomeRua(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 2)));
+                modEndereco.setCep(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 3)));
+                modEndereco.setNumeroResidencia(String.valueOf(tableHotel.getValueAt(tableHotel.getSelectedRow(), 4)));
+                
+                DadosTemporarios.tempObject = (ModHotel) modHotel;
+                DadosTemporarios.tempObject2 = (ModEndereco) modEndereco;
+                
+                CadHotel cadHotel = new CadHotel();
+                cadHotel.setVisible(true);
             }
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
-    }//GEN-LAST:event_tableEnderecoMouseClicked
+    }//GEN-LAST:event_tableHotelMouseClicked
+
+    private void jcbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbBuscarActionPerformed
+
+    }//GEN-LAST:event_jcbBuscarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Formularios.listHotel = null;
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+                switch (jcbTipoFiltro.getSelectedIndex()){
+            case 0:
+                listarTodos();
+                break;
+            case 1:
+                listarPorId();
+                break;
+            case 2:
+                listarPorDescricao();
+                break;
+            case 3:
+                listarPorNumeroResidencia();
+                break;
+            case 4:
+                listarPorNome();
+                break;
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,20 +367,23 @@ public class ListEndereco extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListHotel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListHotel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListHotel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListHotel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListEndereco().setVisible(true);
+                new ListHotel().setVisible(true);
             }
         });
     }
@@ -378,7 +393,7 @@ public class ListEndereco extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcbTipoFiltro;
-    private javax.swing.JTable tableEndereco;
+    private javax.swing.JTable tableHotel;
     private javax.swing.JTextField tfFiltro;
     // End of variables declaration//GEN-END:variables
 }
