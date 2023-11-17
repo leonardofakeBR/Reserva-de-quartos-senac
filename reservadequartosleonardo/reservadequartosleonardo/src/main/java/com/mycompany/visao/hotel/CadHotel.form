@@ -95,8 +95,8 @@
                                                           </Group>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="tfNumero" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jLabel14" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                                                              <Component id="jLabel14" min="-2" pref="64" max="-2" attributes="0"/>
+                                                              <Component id="tfNumero" min="-2" pref="90" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                   </Group>
@@ -293,7 +293,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="taDescricao">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>

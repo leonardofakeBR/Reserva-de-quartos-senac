@@ -77,7 +77,7 @@ public class CadHotel extends javax.swing.JFrame {
             tfIdEndereco.setText(String.valueOf(idEndereco));
 
             tfNome.setText(nome);
-            jTextArea1.setText(descricao);
+            taDescricao.setText(descricao);
             
             
             //
@@ -121,12 +121,13 @@ public class CadHotel extends javax.swing.JFrame {
         DaoEndereco daoEndereco = new DaoEndereco();
         
         
-        if (daoHotel.inserir(Integer.parseInt(tfIdPessoa.getText()), Integer.parseInt(tfIdEndereco.getText()), tfNome.getText(), jTextArea1.getText())){
+        if (daoHotel.inserir(Integer.parseInt(tfIdPessoa.getText()), Integer.parseInt(tfIdEndereco.getText()), tfNome.getText(), taDescricao.getText())){
             JOptionPane.showMessageDialog(null, "Hotel salva com sucesso!");
             
             tfIdPessoa.setText(String.valueOf(daoHotel.buscarProximoId()));
             tfIdEndereco.setText(String.valueOf(daoEndereco.buscarProximoId()));
             tfNome.setText("");
+            taDescricao.setText("");
             
             
         }else{
@@ -153,12 +154,12 @@ public class CadHotel extends javax.swing.JFrame {
     private void alterar(){
         DaoHotel daoHotel = new DaoHotel();
         
-        if (daoHotel.alterar(Integer.parseInt(tfIdPessoa.getText()), Integer.parseInt(tfIdEndereco.getText()), tfNome.getText(), jTextArea1.getText())){
+        if (daoHotel.alterar(Integer.parseInt(tfIdPessoa.getText()), Integer.parseInt(tfIdEndereco.getText()), tfNome.getText(), taDescricao.getText())){
             JOptionPane.showMessageDialog(null, "Hotel alterada com sucesso!");
             
             //tfIdEndereco.setText(String.valueOf(daoEndereco.buscarProximoId()));          
             tfNome.setText("");
-            jTextArea1.setText("");
+            taDescricao.setText("");
         }else{
             JOptionPane.showMessageDialog(null, "Não foi possível alterar a hotel!");
         }
@@ -292,7 +293,7 @@ public class CadHotel extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taDescricao = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de endereço");
@@ -360,9 +361,9 @@ public class CadHotel extends javax.swing.JFrame {
 
         jLabel2.setText("Descrição");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taDescricao.setColumns(20);
+        taDescricao.setRows(5);
+        jScrollPane1.setViewportView(taDescricao);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -407,8 +408,8 @@ public class CadHotel extends javax.swing.JFrame {
                                                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -594,8 +595,8 @@ public class CadHotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox<String> jcbCidade;
+    private javax.swing.JTextArea taDescricao;
     private javax.swing.JTextField tfCep;
     private javax.swing.JTextField tfIdCidade;
     private javax.swing.JTextField tfIdEndereco;

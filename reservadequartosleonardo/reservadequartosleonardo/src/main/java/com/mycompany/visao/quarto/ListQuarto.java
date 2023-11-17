@@ -4,7 +4,6 @@
  */
 package com.mycompany.visao.quarto;
 
-import com.mycompany.visao.Quarto.*;
 import com.mycompany.dao.DaoQuarto;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
@@ -61,6 +60,8 @@ public class ListQuarto extends javax.swing.JFrame {
             tableQuarto.setModel(defaultTableModel);
 
             DaoQuarto daoQuarto = new DaoQuarto();
+            
+//ID, NUMERO_QUARTO, TIPO_QUARTO, CAPACIDADE, PRECO_NOITE, DISPONIBILIDADE, ID_HOTEL
 
             //Atribui o resultset retornado a uma variável para ser usada.
             ResultSet resultSet = daoQuarto.listarPorId(pId);
@@ -68,16 +69,21 @@ public class ListQuarto extends javax.swing.JFrame {
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String nome = resultSet.getString(2);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
                 
-                defaultTableModel.addRow(new Object[]{id, nome});
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    public void listarPorNome(String pNome){
+    public void listarPorCapacidade(int pCapacidade){
         try{
             //Define o model da tabela.
             DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
@@ -87,20 +93,170 @@ public class ListQuarto extends javax.swing.JFrame {
             DaoQuarto daoQuarto = new DaoQuarto();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoQuarto.listarPorNome(pNome);
+            ResultSet resultSet = daoQuarto.listarPorCapacidade(pCapacidade);
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String nome = resultSet.getString(2);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
                 
-                defaultTableModel.addRow(new Object[]{id, nome});
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
-    
+   
+        public void listarPorNumero(String pNumero){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
+            
+            tableQuarto.setModel(defaultTableModel);
+
+            DaoQuarto daoQuarto = new DaoQuarto();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoQuarto.listarPorNumeroQuarto(pNumero);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
+                
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+            public void listarPorDisponibilidade(Boolean pDisponibilidade){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
+            
+            tableQuarto.setModel(defaultTableModel);
+
+            DaoQuarto daoQuarto = new DaoQuarto();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoQuarto.listarPorDisponibilidade(pDisponibilidade);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
+                
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+       
+
+       public void listarPorDisponibilidade(int pIdHotel){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
+            
+            tableQuarto.setModel(defaultTableModel);
+
+            DaoQuarto daoQuarto = new DaoQuarto();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoQuarto.listarPorIdHotel(pIdHotel);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
+                
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }    
+   
+       public void listarPorPrecoNoite(Double pPrecoNoite){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
+            
+            tableQuarto.setModel(defaultTableModel);
+
+            DaoQuarto daoQuarto = new DaoQuarto();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoQuarto.listarPorPrecoNoite(pPrecoNoite);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
+                
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+       
+       public void listarPorDisponibilidade(String pTipoQuarto){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableQuarto.getModel();
+            
+            tableQuarto.setModel(defaultTableModel);
+
+            DaoQuarto daoQuarto = new DaoQuarto();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoQuarto.listarPorTipoQuarto(pTipoQuarto);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String numero_quarto = resultSet.getString(2);
+                String tipo_quarto = resultSet.getString(3);
+                String capacidade = resultSet.getString(4);
+                String preco_noite = resultSet.getString(5);
+                String disponibilidade = resultSet.getString(5);
+                String id_hotel = resultSet.getString(6);
+                
+                defaultTableModel.addRow(new Object[]{id, numero_quarto, tipo_quarto, capacidade, preco_noite, disponibilidade, id_hotel});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,7 +376,13 @@ public class ListQuarto extends javax.swing.JFrame {
             ModQuarto modQuarto = new ModQuarto();
 
             modQuarto.setId(Integer.parseInt(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 0))));
-            modQuarto.setNome(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 1)));
+            modQuarto.setCapacidade(Integer.parseInt(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 1))));
+            modQuarto.setDisponibilidade(Boolean.parseBoolean(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 2))));
+            modQuarto.setIdHotel(Integer.parseInt(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 3))));
+            modQuarto.setNumero_quarto(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 4)));
+            modQuarto.setPreco_noite(Double.parseDouble(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 5))));
+            modQuarto.setTipo_quarto(String.valueOf(tableQuarto.getValueAt(tableQuarto.getSelectedRow(), 6)));
+            
 
             DadosTemporarios.tempObject = (ModQuarto) modQuarto;
 
@@ -238,7 +400,7 @@ public class ListQuarto extends javax.swing.JFrame {
                 listarPorId(Integer.parseInt(tfFiltro.getText()));
                 break;
             case 2:
-                listarPorNome(tfFiltro.getText());
+                listarPorCapacidade(Integer.parseInt(tfFiltro.getText()));
                 break;
         }
     }//GEN-LAST:event_btnBuscarActionPerformed

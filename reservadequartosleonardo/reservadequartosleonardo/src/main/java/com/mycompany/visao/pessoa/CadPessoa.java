@@ -12,6 +12,7 @@ import com.mycompany.dao.DaoPessoa;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
+import com.mycompany.modelo.ModCliente;
 import com.mycompany.modelo.ModEndereco;
 import com.mycompany.modelo.ModPessoa;
 import java.sql.ResultSet;
@@ -144,6 +145,9 @@ public class CadPessoa extends javax.swing.JFrame {
             tfRua.setText(rua);
             tfCep.setText(cep);
             tfNumero.setText(numRes);
+            
+            int idCliente = ((ModCliente) DadosTemporarios.tempObject3).getId();
+            tfIdCliente.setText(String.valueOf(idCliente));
             
             DadosTemporarios.tempObject = null;
             DadosTemporarios.tempObject2 = null;
@@ -325,17 +329,6 @@ public class CadPessoa extends javax.swing.JFrame {
         }
     }
     
-//        private void recuperaIdCliente(){
-//        try{
-//            DaoCliente daoCliente = new DaoCliente();
-//            ResultSet resultSet = daoCliente.listarPorPessoa(jcbEstadoCivil.getSelectedItem().toString());
-//            
-//            resultSet.next();
-//            tfIdEstadoCivil.setText(resultSet.getString("ID"));
-//        }catch(Exception e){
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
-//    }
     
     private boolean camposObrigatoriosPreenchidos(JTextField campos[]){
         boolean b = true;
@@ -688,9 +681,9 @@ public class CadPessoa extends javax.swing.JFrame {
     private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
         if(camposObrigatoriosPreenchidos(new JTextField[]{tfRua, tfCep, tfNumero, tfNome, tfSobrenome, tfTelefone, tfEmail})){
             if (btnAcao.getText() == Constantes.BTN_SALVAR_TEXT){
-                inserirCliente();
                 inserirEndereco();
                 inserir();
+                inserirCliente();
             }else if (btnAcao.getText() == Constantes.BTN_ALTERAR_TEXT){  
                 alterarCliente();
                 alterarEndereco();
