@@ -17,14 +17,13 @@ public class DaoLavagem_roupa extends BancoDeDadosMySql{
     
     public Boolean inserir(int id, Boolean simnao, LocalDateTime data_hora, Double preco) {
         try {
-            sql = "INSERT INTO LAVAGEM_ROUPA (ID, SIMNAO, DATA_HORA, PRECO) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO LAVAGEM_ROUPA (ID, SIMNAO, DATA_HORA) VALUES (?, ?, ?)";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setInt(1, id);
             getStatement().setBoolean(2, simnao);
             getStatement().setObject(3, data_hora);
-            getStatement().setDouble(4, preco);
 
             getStatement().executeUpdate();
 
@@ -35,15 +34,14 @@ public class DaoLavagem_roupa extends BancoDeDadosMySql{
         }
     }
 
-    public Boolean alterar(int id, Boolean novoSimnao, LocalDateTime novaDataHora, Double novoPreco) {
+    public Boolean alterar(int id, Boolean novoSimnao, LocalDateTime novaDataHora) {
         try {
-            sql = "UPDATE LAVAGEM_ROUPA SET SIMNAO = ?, DATA_HORA = ?, PRECO = ? WHERE ID = ?";
+            sql = "UPDATE LAVAGEM_ROUPA SET SIMNAO = ?, DATA_HORA = ? WHERE ID = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setBoolean(1, novoSimnao);
             getStatement().setObject(2, novaDataHora);
-            getStatement().setDouble(3, novoPreco);
             getStatement().setInt(4, id);
 
             getStatement().executeUpdate();
@@ -125,22 +123,6 @@ public class DaoLavagem_roupa extends BancoDeDadosMySql{
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setObject(1, dataHora);
-
-            setResultado(getStatement().executeQuery());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return getResultado();
-    }
-
-    public ResultSet listarPorPreco(Double preco) {
-        try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM LAVAGEM_ROUPA WHERE PRECO = ?";
-
-            setStatement(getConexao().prepareStatement(sql));
-
-            getStatement().setDouble(1, preco);
 
             setResultado(getStatement().executeQuery());
         } catch (Exception e) {

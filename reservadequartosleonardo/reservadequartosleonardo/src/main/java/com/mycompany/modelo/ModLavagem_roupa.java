@@ -14,13 +14,11 @@ public class ModLavagem_roupa {
     private int id;
     private Boolean simnao;
     private LocalDateTime datahora;
-    private Double preco;
 
-    public ModLavagem_roupa(int id, Boolean simnao, LocalDateTime datahora, Double preco) {
+    public ModLavagem_roupa(int id, Boolean simnao, LocalDateTime datahora) {
         this.id = id;
         this.simnao = simnao;
         this.datahora = datahora;
-        this.preco = preco;
     }
 
     public ModLavagem_roupa() {
@@ -50,16 +48,8 @@ public class ModLavagem_roupa {
         this.datahora = datahora;
     }
 
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
     @Override
     public String toString() {
-        return "ModComida{" + "id=" + id + ", simnao=" + simnao + ", datahora=" + datahora + ", preco=" + preco + '}';
+        return "ModComida{" + "id=" + id + ", simnao=" + simnao + ", datahora=" + datahora + '}';
     }
 }

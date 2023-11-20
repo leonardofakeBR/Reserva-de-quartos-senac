@@ -6,7 +6,6 @@ package com.mycompany.dao;
 
 import com.mycompany.ferramentas.BancoDeDadosMySql;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
 
 /**
  *
@@ -15,15 +14,14 @@ import java.time.LocalDateTime;
 public class DaoPagamento extends BancoDeDadosMySql{
     private String sql; 
 
-    public Boolean inserir(int id, String tipo, LocalDateTime data_hora) {
+    public Boolean inserir(int id, String tipo) {
         try {
-            sql = "INSERT INTO PAGAMENTO (ID, TIPO, DATA_HORA) VALUES (?, ?, ?)";
+            sql = "INSERT INTO PAGAMENTO (ID, TIPO) VALUES (?, ?)";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setInt(1, id);
             getStatement().setString(2, tipo);
-            getStatement().setObject(3, data_hora);
 
             getStatement().executeUpdate();
 
@@ -34,14 +32,13 @@ public class DaoPagamento extends BancoDeDadosMySql{
         }
     }
 
-    public Boolean alterar(int id, String novoTipo, LocalDateTime novaDataHora) {
+    public Boolean alterar(int id, String novoTipo) {
         try {
-            sql = "UPDATE PAGAMENTO SET TIPO = ?, DATA_HORA = ? WHERE ID = ?";
+            sql = "UPDATE PAGAMENTO SET TIPO = ? WHERE ID = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setString(1, novoTipo);
-            getStatement().setObject(2, novaDataHora);
             getStatement().setInt(3, id);
 
             getStatement().executeUpdate();
@@ -72,7 +69,7 @@ public class DaoPagamento extends BancoDeDadosMySql{
 
     public ResultSet listarTodos() {
         try {
-            sql = "SELECT ID, TIPO, DATA_HORA FROM PAGAMENTO";
+            sql = "SELECT ID, TIPO FROM PAGAMENTO";
 
             setStatement(getConexao().prepareStatement(sql));
 
@@ -86,7 +83,7 @@ public class DaoPagamento extends BancoDeDadosMySql{
 
     public ResultSet listarPorId(int id) {
         try {
-            sql = "SELECT ID, TIPO, DATA_HORA FROM PAGAMENTO WHERE ID = ?";
+            sql = "SELECT ID, TIPO FROM PAGAMENTO WHERE ID = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
@@ -102,7 +99,7 @@ public class DaoPagamento extends BancoDeDadosMySql{
 
     public ResultSet listarPorTipo(String tipo) {
         try {
-            sql = "SELECT ID, TIPO, DATA_HORA FROM PAGAMENTO WHERE TIPO LIKE ?";
+            sql = "SELECT ID, TIPO FROM PAGAMENTO WHERE TIPO LIKE ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
