@@ -4,13 +4,19 @@
  */
 package com.mycompany.visao.reserva;
 
+import com.mycompany.dao.DaoComida;
+import com.mycompany.dao.DaoLavagem_roupa;
+import com.mycompany.dao.DaoPagamento;
+import com.mycompany.dao.DaoQuarto;
 import com.mycompany.dao.DaoReserva;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
 import com.mycompany.modelo.ModReserva;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,10 +33,20 @@ public class CadReserva extends javax.swing.JFrame {
         
         if(!existeDadosTemporarios()){
             DaoReserva daoReserva = new DaoReserva();
+            DaoLavagem_roupa daoLavagem_roupa = new DaoLavagem_roupa();
+            DaoComida daoComida = new DaoComida();
+            DaoPagamento daoPagamento = new DaoPagamento();
 
-            int id = daoReserva.buscarProximoId(); 
+            int id = daoReserva.buscarProximoId();
+            int idlavagem = daoLavagem_roupa.buscarProximoId();
+            int idcomida = daoComida.buscarProximoId();
+            int idpagamento = daoPagamento.buscarProximoId();
+            
             if (id >= 0)
                 tfId.setText(String.valueOf(id));
+                tfIdLavagem_roupa.setText(String.valueOf(idlavagem));
+                tfIdComida.setText(String.valueOf(idcomida));
+                tfIdPagamento.setText(String.valueOf(idcomida));
             
             btnAcao.setText(Constantes.BTN_SALVAR_TEXT);
             btnExcluir.setVisible(false);
@@ -42,6 +58,8 @@ public class CadReserva extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         tfId.setEnabled(false);
+        
+        calculaTotalCompra();
     }
 
     private Boolean existeDadosTemporarios(){        
@@ -61,10 +79,33 @@ public class CadReserva extends javax.swing.JFrame {
     
     private void inserir(){
         DaoReserva daoReserva = new DaoReserva();
+        DaoPagamento daoPagamento = new DaoPagamento();
+        DaoLavagem_roupa daoLavagem_roupa = new DaoLavagem_roupa();
+        DaoComida daoComida = new DaoComida();
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         
-        if (daoReserva.inserir(Integer.parseInt(tfId.getText()), Integer.parseInt(tfIdCliente.getText()), Integer.parseInt(tfIdQuarto.getText()), LocalDate.parse(tfCheckIn.getText(), formatter), LocalDate.parse(tfCheckOut.getText(), formatter), (String) jcbPagamento.getSelectedItem(), Integer.parseInt(tfIdLavagem_roupa.getText()), Integer.parseInt(tfIdComida.getText()), Integer.parseInt(tfIdPagamento.getText()), Double.parseDouble(labelPreco.getText()))){
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+
+        // Define um formato para exibição
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Formata a data e hora para uma string
+        String dataHoraFormatada = dataHoraAtual.format(formatter2);
+        
+        if(daoLavagem_roupa.inserir(Integer.parseInt(tfIdLavagem_roupa.getText()), jchbLavagem.isSelected(), dataHoraAtual)){}
+        else
+            JOptionPane.showMessageDialog(null, "Erro ao salvar a Lavagem da roupa!");
+        
+        if(daoComida.inserir(Integer.parseInt(tfIdComida.getText()), jchbComida.isSelected(), dataHoraAtual)){}
+        else
+            JOptionPane.showMessageDialog(null, "Erro ao salvar a Comida!");
+        
+        if(daoPagamento.inserir(Integer.parseInt(tfIdPagamento.getText()), (String) jcbPagamento.getSelectedItem())){}
+        else 
+            JOptionPane.showMessageDialog(null, "Erro ao salvar pagamento!");
+            
+        if (daoReserva.inserir(Integer.parseInt(tfId.getText()), Integer.parseInt(tfIdCliente.getText()), Integer.parseInt(tfIdQuarto.getText()), LocalDate.parse(tfCheckIn.getText(), formatter), LocalDate.parse(tfCheckOut.getText(), formatter), (String) jcbStatus.getSelectedItem(), Integer.parseInt(tfIdLavagem_roupa.getText()), Integer.parseInt(tfIdComida.getText()), Integer.parseInt(tfIdPagamento.getText()), Double.parseDouble(labelPreco.getText()))){
             JOptionPane.showMessageDialog(null, "Reserva salvo com sucesso!");
             
             tfId.setText(String.valueOf(daoReserva.buscarProximoId()));
@@ -110,6 +151,28 @@ public class CadReserva extends javax.swing.JFrame {
         dispose();
     }
     
+    private void calculaTotalCompra(Double preco){
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        LocalDate checkIn = LocalDate.parse( tfCheckIn.getText());
+        LocalDate checkOut = LocalDate.parse(tfCheckOut.getText());
+        
+        long diferencaEmDias = ChronoUnit.DAYS.between(checkIn, checkOut);
+        Double total = preco * diferencaEmDias;
+        
+        if(jchbComida.isSelected()){
+        total += 50;
+        }
+        
+        if(jchbLavagem.isSelected()){
+        total += 50;
+        }
+        
+        labelPreco.setText(String.valueOf(total));
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,24 +196,29 @@ public class CadReserva extends javax.swing.JFrame {
         btnExcluir = new javax.swing.JButton();
         tfIdQuarto = new javax.swing.JTextField();
         tfIdCliente = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        idquarto = new javax.swing.JLabel();
+        idcliente = new javax.swing.JLabel();
         tfId = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        id = new javax.swing.JLabel();
         tfCheckOut = new javax.swing.JTextField();
         tfCheckIn = new javax.swing.JTextField();
         jcbStatus = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         tfIdLavagem_roupa = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        idLavagem_roupa = new javax.swing.JLabel();
         tfIdComida = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        idcomida = new javax.swing.JLabel();
         tfIdPagamento = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
+        idpagamento = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jcbQuarto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quarto" }));
+        jcbQuarto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbQuartoItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Check_in");
 
@@ -188,14 +256,19 @@ public class CadReserva extends javax.swing.JFrame {
         );
 
         btnAcao.setText("Salvar");
+        btnAcao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcaoActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
 
-        jLabel5.setText("idQuarto");
+        idquarto.setText("idQuarto");
 
-        jLabel6.setText("idCliente");
+        idcliente.setText("idCliente");
 
-        jLabel4.setText("id");
+        id.setText("id");
 
         tfCheckOut.setText("YYYY-MM-DD");
 
@@ -210,11 +283,11 @@ public class CadReserva extends javax.swing.JFrame {
 
         jLabel7.setText("Status da reserva");
 
-        jLabel8.setText("idLavagem_roupa");
+        idLavagem_roupa.setText("idLavagem_roupa");
 
-        jLabel9.setText("idComida");
+        idcomida.setText("idComida");
 
-        jLabel10.setText("idPagamento");
+        idpagamento.setText("idPagamento");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -241,19 +314,19 @@ public class CadReserva extends javax.swing.JFrame {
                                         .addGap(10, 10, 10)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel4))
+                                            .addComponent(id))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
+                                            .addComponent(idcliente)
                                             .addComponent(tfIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(tfIdQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5)))
+                                            .addComponent(idquarto)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jchbLavagem)
-                                            .addComponent(jchbComida)
-                                            .addComponent(jcbPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jchbLavagem)
+                                                .addGap(34, 34, 34))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -263,7 +336,9 @@ public class CadReserva extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(tfCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel2))))
+                                                    .addComponent(jLabel2)))
+                                            .addComponent(jchbComida)
+                                            .addComponent(jcbPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,15 +347,15 @@ public class CadReserva extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel8)
+                                            .addComponent(idcomida)
+                                            .addComponent(idLavagem_roupa)
                                             .addComponent(tfIdLavagem_roupa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel10)
+                                            .addComponent(idpagamento)
                                             .addComponent(tfIdPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 30, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -291,14 +366,14 @@ public class CadReserva extends javax.swing.JFrame {
                     .addComponent(jcbQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
+                            .addComponent(id)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel8))
+                                .addComponent(idquarto)
+                                .addComponent(idcliente)
+                                .addComponent(idLavagem_roupa))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(tfIdQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -311,7 +386,7 @@ public class CadReserva extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel9))
+                            .addComponent(idcomida))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -324,7 +399,7 @@ public class CadReserva extends javax.swing.JFrame {
                         .addGap(20, 20, 20)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jchbLavagem)
-                    .addComponent(jLabel10))
+                    .addComponent(idpagamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jchbComida)
@@ -346,14 +421,14 @@ public class CadReserva extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -363,6 +438,17 @@ public class CadReserva extends javax.swing.JFrame {
     private void jcbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbStatusActionPerformed
+
+    private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAcaoActionPerformed
+
+    private void jcbQuartoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbQuartoItemStateChanged
+        // TODO add your handling code here:
+        DaoQuarto daoQuarto = new DaoQuarto();
+        
+        daoQuarto.PegarPrecoNoite(Integer.parseInt(idquarto.getText()));
+    }//GEN-LAST:event_jcbQuartoItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -402,16 +488,16 @@ public class CadReserva extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcao;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JLabel id;
+    private javax.swing.JLabel idLavagem_roupa;
+    private javax.swing.JLabel idcliente;
+    private javax.swing.JLabel idcomida;
+    private javax.swing.JLabel idpagamento;
+    private javax.swing.JLabel idquarto;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> jcbPagamento;

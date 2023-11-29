@@ -205,6 +205,22 @@ public class DaoQuarto extends BancoDeDadosMySql {
         return getResultado();
     }
     
+    public ResultSet PegarPrecoNoite(int id) {
+        try {
+            sql = "SELECT PRECO_NOITE FROM QUARTO WHERE id = ?";
+
+            setStatement(getConexao().prepareStatement(sql));
+
+            getStatement().setDouble(1, id);
+
+            setResultado(getStatement().executeQuery());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return getResultado();
+    }
+    
     public int buscarProximoId() {
         int id = -1;
 

@@ -15,16 +15,15 @@ import java.time.LocalDateTime;
 public class DaoComida extends BancoDeDadosMySql{
     private String sql; 
     
-    public Boolean inserir(int id, Boolean simnao, LocalDateTime data_hora, Double preco) {
+    public Boolean inserir(int id, Boolean simnao, LocalDateTime data_hora) {
         try {
-            sql = "INSERT INTO COMIDA (ID, SIMNAO, DATA_HORA, PRECO) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO COMIDA (ID, SIMNAO, DATA_HORA) VALUES (?, ?, ?)";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setInt(1, id);
             getStatement().setBoolean(2, simnao);
             getStatement().setObject(3, data_hora);
-            getStatement().setDouble(4, preco);
 
             getStatement().executeUpdate();
 
@@ -35,16 +34,15 @@ public class DaoComida extends BancoDeDadosMySql{
         }
     }
 
-    public Boolean alterar(int id, Boolean novoSimnao, LocalDateTime novaDataHora, Double novoPreco) {
+    public Boolean alterar(int id, Boolean novoSimnao, LocalDateTime novaDataHora) {
         try {
-            sql = "UPDATE COMIDA SET SIMNAO = ?, DATA_HORA = ?, PRECO = ? WHERE ID = ?";
+            sql = "UPDATE COMIDA SET SIMNAO = ?, DATA_HORA = ? = ? WHERE ID = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setBoolean(1, novoSimnao);
             getStatement().setObject(2, novaDataHora);
-            getStatement().setDouble(3, novoPreco);
-            getStatement().setInt(4, id);
+            getStatement().setInt(3, id);
 
             getStatement().executeUpdate();
 
@@ -74,7 +72,7 @@ public class DaoComida extends BancoDeDadosMySql{
 
     public ResultSet listarTodos() {
         try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM COMIDA";
+            sql = "SELECT ID, SIMNAO, DATA_HORA FROM COMIDA";
 
             setStatement(getConexao().prepareStatement(sql));
 
@@ -88,7 +86,7 @@ public class DaoComida extends BancoDeDadosMySql{
 
     public ResultSet listarPorId(int id) {
         try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM COMIDA WHERE ID = ?";
+            sql = "SELECT ID, SIMNAO, DATA_HORA FROM COMIDA WHERE ID = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
@@ -104,7 +102,7 @@ public class DaoComida extends BancoDeDadosMySql{
 
     public ResultSet listarPorSimnao(Boolean simnao) {
         try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM COMIDA WHERE SIMNAO = ?";
+            sql = "SELECT ID, SIMNAO, DATA_HORA FROM COMIDA WHERE SIMNAO = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
@@ -120,27 +118,11 @@ public class DaoComida extends BancoDeDadosMySql{
 
         public ResultSet listarPorDataHora(LocalDateTime dataHora) {
         try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM COMIDA WHERE DATA_HORA = ?";
+            sql = "SELECT ID, SIMNAO, DATA_HORA FROM COMIDA WHERE DATA_HORA = ?";
 
             setStatement(getConexao().prepareStatement(sql));
 
             getStatement().setObject(1, dataHora);
-
-            setResultado(getStatement().executeQuery());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return getResultado();
-    }
-
-    public ResultSet listarPorPreco(Double preco) {
-        try {
-            sql = "SELECT ID, SIMNAO, DATA_HORA, PRECO FROM COMIDA WHERE PRECO = ?";
-
-            setStatement(getConexao().prepareStatement(sql));
-
-            getStatement().setDouble(1, preco);
 
             setResultado(getStatement().executeQuery());
         } catch (Exception e) {

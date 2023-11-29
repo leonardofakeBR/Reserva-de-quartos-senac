@@ -9,6 +9,7 @@ import com.mycompany.visao.reserva.*;
 import com.mycompany.dao.DaoReserva;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
+import com.mycompany.modelo.ModQuarto;
 import com.mycompany.modelo.ModReserva;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
@@ -193,6 +194,16 @@ public class ListReserva extends javax.swing.JFrame {
         System.out.println(e.getMessage());
     }
 }
+    
+    public void listarTodos() {
+    try {
+        DaoReserva daoReserva = new DaoReserva();
+        ResultSet resultSet = daoReserva.listarTodos();
+        preencherTabela(resultSet);
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
+}
 
 public void listarPorId(int pId) {
     try {
@@ -207,7 +218,7 @@ public void listarPorId(int pId) {
 public void listarPorTipo(String pTipo) {
     try {
         DaoReserva daoReserva = new DaoReserva();
-        ResultSet resultSet = daoReserva.listarPorTipo(pTipo);
+        ResultSet resultSet = daoReserva.listarPorTipoQuarto(pTipo);
         preencherTabela(resultSet);
     } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -220,7 +231,7 @@ public void listarPorTipo(String pTipo) {
 public void listarPorNumero_quarto(String pNumero_quarto) {
     try {
         DaoReserva daoReserva = new DaoReserva();
-        ResultSet resultSet = daoReserva.listarPorNumero_quarto(pNumero_quarto);
+        ResultSet resultSet = daoReserva.listarPorNumeroQuarto(pNumero_quarto);
         preencherTabela(resultSet);
     } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -344,9 +355,10 @@ public void listarPorNumero_quarto(String pNumero_quarto) {
     private void tableReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableReservaMouseClicked
         if (evt.getClickCount() == 2){
             ModReserva modReserva = new ModReserva();
+            ModQuarto modQuarto = new ModQuarto();
 
             modReserva.setId(Integer.parseInt(String.valueOf(tableReserva.getValueAt(tableReserva.getSelectedRow(), 0))));
-            modReserva.setTipo(String.valueOf(tableReserva.getValueAt(tableReserva.getSelectedRow(), 1)));
+            modQuarto.setTipo_quarto(String.valueOf(tableReserva.getValueAt(tableReserva.getSelectedRow(), 1)));
 
             DadosTemporarios.tempObject = (ModReserva) modReserva;
 

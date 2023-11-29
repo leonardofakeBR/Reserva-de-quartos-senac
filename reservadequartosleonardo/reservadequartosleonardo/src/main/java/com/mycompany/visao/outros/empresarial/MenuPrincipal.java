@@ -22,6 +22,8 @@ import com.mycompany.visao.pessoa.CadPessoa;
 import com.mycompany.visao.pessoa.ListPessoa;
 import com.mycompany.visao.quarto.CadQuarto;
 import com.mycompany.visao.quarto.ListQuarto;
+import com.mycompany.visao.reserva.CadReserva;
+import com.mycompany.visao.reserva.ListReserva;
 import javax.swing.JOptionPane;
 
 /**
@@ -65,6 +67,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         miCadastroPessoa = new javax.swing.JMenuItem();
         miCadastroHotel = new javax.swing.JMenuItem();
         miCadastroQuarto = new javax.swing.JMenuItem();
+        miCadastroReserva = new javax.swing.JMenuItem();
         mnConsulta = new javax.swing.JMenu();
         miConsultaCidade = new javax.swing.JMenuItem();
         miConsultaPais = new javax.swing.JMenuItem();
@@ -74,6 +77,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         miConsultaPessoa = new javax.swing.JMenuItem();
         miConsultaHotel = new javax.swing.JMenuItem();
         miConsultaQuarto = new javax.swing.JMenuItem();
+        miConsultaReserva = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("\n");
@@ -144,6 +148,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         mnCadastro.add(miCadastroQuarto);
 
+        miCadastroReserva.setText("Reserva");
+        miCadastroReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCadastroReservaActionPerformed(evt);
+            }
+        });
+        mnCadastro.add(miCadastroReserva);
+
         menuBar.add(mnCadastro);
 
         mnConsulta.setText("Consultas");
@@ -211,6 +223,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         mnConsulta.add(miConsultaQuarto);
+
+        miConsultaReserva.setText("Reserva");
+        miConsultaReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConsultaReservaActionPerformed(evt);
+            }
+        });
+        mnConsulta.add(miConsultaReserva);
 
         menuBar.add(mnConsulta);
 
@@ -351,6 +371,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Formularios.listHotel.setVisible(true);
     }//GEN-LAST:event_miConsultaHotelActionPerformed
 
+    private void miCadastroReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastroReservaActionPerformed
+        // TODO add your handling code here:
+        if (Formularios.cadReserva == null)
+            Formularios.cadReserva = new CadReserva();
+        
+        Formularios.cadReserva.setVisible(true);
+    }//GEN-LAST:event_miCadastroReservaActionPerformed
+
+    private void miConsultaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultaReservaActionPerformed
+        // TODO add your handling code here:
+        if (Formularios.listReserva == null)
+            Formularios.listReserva = new ListReserva();
+        
+        Formularios.listReserva.setVisible(true);
+    }//GEN-LAST:event_miConsultaReservaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -397,6 +433,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem miCadastroPais;
     private javax.swing.JMenuItem miCadastroPessoa;
     private javax.swing.JMenuItem miCadastroQuarto;
+    private javax.swing.JMenuItem miCadastroReserva;
     private javax.swing.JMenuItem miConsultaCidade;
     private javax.swing.JMenuItem miConsultaEndereco;
     private javax.swing.JMenuItem miConsultaEstado;
@@ -405,6 +442,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem miConsultaPais;
     private javax.swing.JMenuItem miConsultaPessoa;
     private javax.swing.JMenuItem miConsultaQuarto;
+    private javax.swing.JMenuItem miConsultaReserva;
     private javax.swing.JMenu mnCadastro;
     private javax.swing.JMenu mnConsulta;
     // End of variables declaration//GEN-END:variables

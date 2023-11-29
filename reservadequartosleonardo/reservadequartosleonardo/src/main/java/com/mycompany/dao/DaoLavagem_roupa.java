@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class DaoLavagem_roupa extends BancoDeDadosMySql{
     private String sql; 
     
-    public Boolean inserir(int id, Boolean simnao, LocalDateTime data_hora, Double preco) {
+    public Boolean inserir(int id, Boolean simnao, LocalDateTime data_hora) {
         try {
             sql = "INSERT INTO LAVAGEM_ROUPA (ID, SIMNAO, DATA_HORA) VALUES (?, ?, ?)";
 
