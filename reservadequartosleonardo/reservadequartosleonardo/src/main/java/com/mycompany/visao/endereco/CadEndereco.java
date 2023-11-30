@@ -177,7 +177,6 @@ public class CadEndereco extends javax.swing.JFrame {
         tfIdCidade = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de endereço");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -372,7 +371,7 @@ public class CadEndereco extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcbCidade;
     private javax.swing.JTextField tfCep;
     private javax.swing.JTextField tfId;
-    public javax.swing.JTextField tfIdCidade;
+    private javax.swing.JTextField tfIdCidade;
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables

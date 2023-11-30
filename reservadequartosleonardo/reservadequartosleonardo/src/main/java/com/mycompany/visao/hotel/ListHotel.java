@@ -195,7 +195,7 @@ public class ListHotel extends javax.swing.JFrame {
         tableHotel = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableHotel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

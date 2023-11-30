@@ -44,6 +44,10 @@ public class CadQuarto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         tfId.setEnabled(false);
+        tfIdHotel.setVisible(false);
+        tfCapacidade.setVisible(false);
+        tfTipo_quarto.setVisible(false);
+        tfDisponibilidade.setVisible(false);
     }
 
     private Boolean existeDadosTemporarios(){        
@@ -205,7 +209,6 @@ public class CadQuarto extends javax.swing.JFrame {
         tfDisponibilidade = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de pais");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);

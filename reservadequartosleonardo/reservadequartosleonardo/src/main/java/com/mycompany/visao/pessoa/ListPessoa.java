@@ -28,7 +28,7 @@ public class ListPessoa extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
         
-        listarTodos();;
+        listarTodos();
     }
 
     public void listarTodos(){
